@@ -5,12 +5,12 @@
 URIのvalueパラメータの数値によってにゃーんの数が変わります
 
 
-http://mypozi/api/nya-n?value=1
+http://mypozi.com:8080/api/nya-n?value=1
 
 ()[]
 
 
-http://mypozi/api/nya-n?value=100
+http://mypozi.com:8080/api/nya-n?value=100
 ()[]
 
 
