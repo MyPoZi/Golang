@@ -50,6 +50,13 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	key, _ := strconv.Atoi(keys[0])
 
+	if key > 100000 {
+		body := Json{http.StatusOK, "max value is 100000", key, nya}
+		returnResponse(w, body)
+
+		return
+	}
+
 	if key <= 0 {
 		body := Json{http.StatusOK, "invalid value", key, nya}
 		returnResponse(w, body)
