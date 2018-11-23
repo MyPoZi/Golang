@@ -5,15 +5,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"sync"
-	"text/template"
 )
 
-type templateHandler struct {
-	once     sync.Once
-	filename string
-	templ    *template.Template
-}
 type Json struct {
 	Status     int      `json:"status"`
 	Result     string   `json:"result"`
@@ -40,11 +33,19 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	nya := make([]string, 1)
 
 	if !ok || len(keys[0]) < 1 {
-		log.Println("Url Param 'key' is missing")
+		body := Json{http.StatusOK, "Url Param 'value' is missing", -1, nya}
+		returnResponse(w, body)
+
 		return
 	}
 
-	// TODO パラメータ2項目以上のエラー処理
+
+	if len(r.URL.Query()) >= 2 {
+		body := Json{http.StatusOK, "Too many Url Param", -1 , nya}
+		returnResponse(w, body)
+
+		return
+	}
 
 	// TODO 数値以外のエラー処理
 	key, _ := strconv.Atoi(keys[0])
@@ -62,6 +63,7 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	body := Json{http.StatusOK, "ok", key, nya}
 
 	returnResponse(w, body)
+
 	return
 }
 
