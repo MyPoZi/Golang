@@ -34,7 +34,7 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	// パラメータが1個未満の場合エラー処理
 	if !ok || len(keys[0]) < 1 {
-		body := Json{http.StatusOK, "Url Param 'value' is missing", -1, nya}
+		body := Json{http.StatusBadRequest, "Url Param 'value' is missing", -1, nya}
 		returnResponse(w, body)
 
 		return
@@ -42,7 +42,7 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	// パラメータが2個以上の場合エラー処理
 	if len(r.URL.Query()) >= 2 {
-		body := Json{http.StatusOK, "Too many Url Param", -1, nya}
+		body := Json{http.StatusBadRequest, "Too many Url Param", -1, nya}
 		returnResponse(w, body)
 
 		return
@@ -51,14 +51,14 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	key, _ := strconv.Atoi(keys[0])
 
 	if key > 100000 {
-		body := Json{http.StatusOK, "max value is 100000", key, nya}
+		body := Json{http.StatusBadRequest, "max value is 100000", key, nya}
 		returnResponse(w, body)
 
 		return
 	}
 
 	if key <= 0 {
-		body := Json{http.StatusOK, "invalid value", key, nya}
+		body := Json{http.StatusBadRequest, "invalid value", key, nya}
 		returnResponse(w, body)
 
 		return
